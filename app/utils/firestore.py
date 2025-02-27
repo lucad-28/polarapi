@@ -2,8 +2,10 @@ import firebase_admin
 from firebase_admin import firestore
 from firebase_admin import credentials
 import pandas as pd
+from app import app as flask_app
 
-cred = credentials.Certificate('service-credentials.json')
+GOOGLE_APPLICATION_CREDENTIALS = flask_app.config['GOOGLE_APPLICATION_CREDENTIALS']
+cred = credentials.Certificate(GOOGLE_APPLICATION_CREDENTIALS)
 app = firebase_admin.initialize_app(cred)
 db = firestore.client()
 
