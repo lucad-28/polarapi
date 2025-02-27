@@ -12,7 +12,10 @@ def restructure_df(df):
 
     for device_id, group in grouped:
         group_sorted = group.sort_values(by='timestamp')
-        data_list = group_sorted[['timestamp', 'temperature', 'volume', 'cooling']].to_dict(orient='records')
+        data_list = [
+            {k: (None if pd.isna(v) else v) for k, v in record.items()} 
+            for record in group_sorted[['timestamp', 'temperature', 'volume', 'cooling']].to_dict(orient='records')
+        ]
         result.append({
             "deviceId": device_id,
             "data": data_list
