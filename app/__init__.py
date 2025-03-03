@@ -9,6 +9,8 @@ def create_app():
     app.config.from_object(Config)
 
     from .routes.history import history_bp
+    from .routes.predict import predict_bp
     app.register_blueprint(history_bp, url_prefix='/api/history')
+    app.register_blueprint(predict_bp, url_prefix='/api/predict')
 
     return app
