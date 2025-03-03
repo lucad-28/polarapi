@@ -1,36 +1,18 @@
 import joblib
-import os
 from app import app as flask_app
-from pydrive.auth import GoogleAuth
-from pydrive.drive import GoogleDrive
-from oauth2client.service_account import ServiceAccountCredentials
 
 import numpy as np
 import pandas as pd
 
-gauth = GoogleAuth()
-gauth.credentials = ServiceAccountCredentials.from_json_keyfile_name(flask_app.config["GOOGLE_ACOUNT_CREDENTIALS"], flask_app.config["SCOPES"])
-
-drive = GoogleDrive(gauth)
-
 model = None
 model_path = flask_app.config["MODEL_PATH"]
-
-def download_model():
-    print("Descargando modelo...", flask_app.config["MODEL_ID"])
-    file = drive.CreateFile({'id': flask_app.config["MODEL_ID"]})
-    file.GetContentFile(model_path)
 
 
 def load_model():
     global model
-    if not os.path.exists(model_path):
-        download_model()
-
     model = joblib.load(model_path)
     print("Modelo cargado exitosamente.")
 
-load_model()
 
 def gen_random_data():
     # Configuración inicial
@@ -93,3 +75,5 @@ def gen_random_data():
     df.index = pd.to_datetime(df.index)
 
     return df
+
+load_model()
