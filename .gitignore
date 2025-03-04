@@ -3,3 +3,4 @@ service_account.json
 *env
 **/__pycache__/
 modelo.pkl
+*.csv
